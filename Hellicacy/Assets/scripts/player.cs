@@ -9,7 +9,7 @@ public class player : MonoBehaviour
     [SerializeField] float sprintSpd = 8f;
     [SerializeField] bool canSprint = true;
     [SerializeField] bool isDash;
-    [SerializeField] float dashAmount = 5f;
+    [SerializeField] float dashAmount = 3f;
     [SerializeField] float dashCooldown = 2f;
 
     private bool canDash = true;
@@ -26,7 +26,7 @@ public class player : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canDash)
         {
             isDash = true;
         }
@@ -63,13 +63,16 @@ public class player : MonoBehaviour
 
     void Dash() 
     {
-        rb.MovePosition(rb.position + movement.normalized * dashAmount);
-        isDash = false;
+        if (canDash)
+        {
+            rb.MovePosition(rb.position + movement.normalized * dashAmount);
+            isDash = false;
 
-        lastDashTime = Time.time;
-        canDash = false;
+            lastDashTime = Time.time;
+            canDash = false;
 
-        StartCoroutine(DashCooldown());
+            StartCoroutine(DashCooldown());
+        }
     }
 
     IEnumerator DashCooldown()
