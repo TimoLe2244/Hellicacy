@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class player : MonoBehaviour
+public class player  : MonoBehaviour
 {
     [SerializeField] float walkSpd = 5f;
     [SerializeField] float sprintSpd = 8f;
@@ -17,19 +17,28 @@ public class player : MonoBehaviour
     public float currentSpd;
 
     public Rigidbody2D rb;
+    public SpriteRenderer spriteRenderer;
 
     Vector2 movement;
 
-    // Update is called once per frame
     void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
+        if (movement.x > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (movement.x < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
         movement.y = Input.GetAxisRaw("Vertical");
 
         if (Input.GetKeyDown(KeyCode.Space) && canDash)
         {
             isDash = true;
         }
+
 
     }
 
